@@ -10,13 +10,14 @@ class WellManager(models.Manager):
         filter_params = dict(pub_date__lte=now, active=True)
 
         if titles:
-            titles_dict = {}
+            print(titles)
+            titles_dict = []
             filter_params['type__title__in'] = titles
             results = (self.filter(**filter_params)
                            .select_related('type')
                            .exclude(expires__lte=now, expires__isnull=False))
             for title in titles:
-                titles_dict.update({'title': title, 'well': results.filter(type__title=title).latest('pub_date')})
+                titles_dict.append({'title': title, 'well': results.filter(type__title=title).latest('pub_date')})
 
             end_time = time.time()
             how_much_time = end_time - start_time
