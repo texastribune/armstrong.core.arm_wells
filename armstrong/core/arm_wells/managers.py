@@ -30,7 +30,6 @@ class WellManager(models.Manager):
             raise self.model.DoesNotExist()
         
         result = (self.filter(**filter_params)
-                    .select_related('type__title', 'type__slug')
                     .exclude(expires__lte=now, expires__isnull=False)
                     .latest('pub_date'))
 
