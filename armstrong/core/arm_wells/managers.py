@@ -13,7 +13,7 @@ class WellManager(models.Manager):
             titles_dict = {}
             filter_params['type__title__in'] = titles
             results = (self.filter(**filter_params)
-                           .exclude(expire__lte=now, expires__isnull=False))
+                           .exclude(expires__lte=now, expires__isnull=False))
             for title in titles:
                 titles_dict.update({'title': title, 'well': results.filter(type__title=title).latest('pub_date')})
 
