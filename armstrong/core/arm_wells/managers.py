@@ -13,7 +13,7 @@ class WellManager(models.Manager):
                            .select_related('type')
                            .exclude(expires__lte=now, expires__isnull=False)
                            .order_by('type', 'pub_date')
-                           .distinct())
+                           .distinct('type'))
 
             return {well.type.title: well for well in results}
 
