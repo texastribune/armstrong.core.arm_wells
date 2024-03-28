@@ -8,15 +8,14 @@ class WellManager(models.Manager):
         filter_params = dict(pub_date__lte=now, active=True)
 
         if titles:
-            titles_dict = {}
             filter_params['type__title__in'] = titles
             results = (self.filter(**filter_params)
                            .select_related('type')
-                           .exclude(expires__lte=now, expires__isnull=False))
-            for title in titles:
-                titles_dict.update({title: results.filter(type__title=title).latest('pub_date')})
+                           .exclude(expires__lte=now, expires__isnull=False)
+                           .order_by('type', '-pub_date')
+                           .distinct('type'))
 
-            return titles_dict
+            return {well.type.title: well for well in results}
 
         if (title):
             filter_params['type__title'] = title
