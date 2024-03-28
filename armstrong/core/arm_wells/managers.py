@@ -12,7 +12,7 @@ class WellManager(models.Manager):
             results = (self.filter(**filter_params)
                            .select_related('type')
                            .exclude(expires__lte=now, expires__isnull=False)
-                           .order_by('type', '-pub_date')
+                           .order_by('type', 'pub_date')
                            .distinct())
 
             print({well.type.title: well for well in results})
