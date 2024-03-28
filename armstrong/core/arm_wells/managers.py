@@ -15,7 +15,7 @@ class WellManager(models.Manager):
                            .exclude(expires__lte=now, expires__isnull=False))
             for title in titles:
                 titles_dict.update({title: results.filter(type__title=title).latest('pub_date')})
-
+            print({well.type.title: well.latest('pub_date') for well in results})
             return titles_dict
 
         if (title):
