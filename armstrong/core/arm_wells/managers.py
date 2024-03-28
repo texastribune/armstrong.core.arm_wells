@@ -15,7 +15,6 @@ class WellManager(models.Manager):
                            .order_by('type', 'pub_date')
                            .distinct())
 
-            print({well.type.title: well for well in results})
             return {well.type.title: well for well in results}
 
         if (title):
